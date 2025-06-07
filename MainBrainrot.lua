@@ -39,7 +39,7 @@ Label.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 Label.Position = UDim2.new(0, 10, 0, 10)  
 Label.Size = UDim2.new(0, 120, 0, 25)  
 Label.Font = Enum.Font.GothamBold  
-Label.Text = "Steal Your Brainrot And Press The Button"  
+Label.Text = "Steal And Press The Button"  
 Label.TextColor3 = Color3.fromRGB(255, 255, 255)  
 Label.TextSize = 14  
 Label.Visible = true  
@@ -57,8 +57,8 @@ local function fireTouch()
 	end  
   
 	-- Countdown 0.5 detik update di label (19 langkah 0.1 detik)  
-	for i = 1, 05 do  
-		local timeLeft = math.floor((0.5 - (i - 1) * 0.1) * 10) / 10  
+	for i = 1, 15 do  
+		local timeLeft = math.floor((1.5 - (i - 1) * 0.1) * 10) / 10  
 		Label.Text = "bypassing : " .. tostring(timeLeft) .. "s"  
 		wait(0.1)  
 	end  
