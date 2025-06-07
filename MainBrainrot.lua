@@ -26,7 +26,7 @@ Button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)
 Button.Position = UDim2.new(0, 10, 0, 45)  
 Button.Size = UDim2.new(0, 120, 0, 30)  
 Button.Font = Enum.Font.GothamBold  
-Button.Text = "click"  
+Button.Text = "Click To Steal"  
 Button.TextColor3 = Color3.fromRGB(255, 255, 255)  
 Button.TextSize = 12  
 Button.TextWrapped = true  
@@ -39,7 +39,7 @@ Label.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
 Label.Position = UDim2.new(0, 10, 0, 10)  
 Label.Size = UDim2.new(0, 120, 0, 25)  
 Label.Font = Enum.Font.GothamBold  
-Label.Text = "Steal And Press The Button"  
+Label.Text = "Ready"  
 Label.TextColor3 = Color3.fromRGB(255, 255, 255)  
 Label.TextSize = 14  
 Label.Visible = true  
@@ -56,10 +56,10 @@ local function fireTouch()
 		return  
 	end  
   
-	-- Countdown 0.5 detik update di label (19 langkah 0.1 detik)  
-	for i = 1, 20 do  
-		local timeLeft = math.floor((2.0 - (i - 1) * 0.1) * 10) / 10  
-		Label.Text = "bypassing : " .. tostring(timeLeft) .. "s"  
+	-- Countdown 1.9 detik update di label (19 langkah 0.1 detik)  
+	for i = 1, 19 do  
+		local timeLeft = math.floor((1.9 - (i - 1) * 0.1) * 10) / 10  
+		Label.Text = "Bypass : " .. tostring(timeLeft) .. "s"  
 		wait(0.1)  
 	end  
   
@@ -80,9 +80,9 @@ local function fireTouch()
 		end  
 	end  
   
-	Label.Text = "Succeed Bypassing : " .. touched  
+	Label.Text = "Working Bypass : " .. touched  
 	wait(1.5)  
-	Label.Text = "Steal And Press The Button"  
+	Label.Text = "holding Brainrot First"  
 end  
   
 -- Saat tombol diklik  
