@@ -57,8 +57,8 @@ local function fireTouch()
 	end  
   
 	-- Countdown 0.5 detik update di label (19 langkah 0.1 detik)  
-	for i = 1, 19 do  
-		local timeLeft = math.floor((1.9 - (i - 1) * 0.1) * 10) / 10  
+	for i = 1, 20 do  
+		local timeLeft = math.floor((2.0 - (i - 1) * 0.1) * 10) / 10  
 		Label.Text = "bypassing : " .. tostring(timeLeft) .. "s"  
 		wait(0.1)  
 	end  
@@ -80,9 +80,9 @@ local function fireTouch()
 		end  
 	end  
   
-	Label.Text = "Succeed Bypassing: " .. touched  
+	Label.Text = "Succeed Bypassing : " .. touched  
 	wait(1.5)  
-	Label.Text = "Steal Your Brainrot And Press The Button"  
+	Label.Text = "Steal And Press The Button"  
 end  
   
 -- Saat tombol diklik  
