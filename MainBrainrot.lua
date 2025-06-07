@@ -57,8 +57,8 @@ local function fireTouch()
 	end  
   
 	-- Countdown 0.5 detik update di label (19 langkah 0.1 detik)  
-	for i = 1, 15 do  
-		local timeLeft = math.floor((1.5 - (i - 1) * 0.1) * 10) / 10  
+	for i = 1, 19 do  
+		local timeLeft = math.floor((1.9 - (i - 1) * 0.1) * 10) / 10  
 		Label.Text = "bypassing : " .. tostring(timeLeft) .. "s"  
 		wait(0.1)  
 	end  
