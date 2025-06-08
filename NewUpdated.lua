@@ -3,10 +3,10 @@ debugX = true
 local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
 
 local Window = Rayfield:CreateWindow({
-   Name = "Steal a BrainRot / Danzzy",
+   Name = "Steal A Brainrot / New 2.1",
    Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-   LoadingTitle = "Field Has Loading",
-   LoadingSubtitle = "By Danxzy",
+   LoadingTitle = "Rayfield Interactive",
+   LoadingSubtitle = "By D4nzy_nzy",
    Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
 
    DisableRayfieldPrompts = false,
@@ -15,7 +15,7 @@ local Window = Rayfield:CreateWindow({
    ConfigurationSaving = {
       Enabled = true,
       FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "Big Script"
+      FileName = "Big On 2025"
    },
 
    Discord = {
@@ -32,7 +32,7 @@ local Window = Rayfield:CreateWindow({
       FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
       SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
       GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-      Key = {"HelloWorldWkwk"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
+      Key = {"SupportD4nzy"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
    }
 })
 
@@ -41,16 +41,23 @@ local Tab = Window:CreateTab("None", 4483362458) -- Title, Image
 local Section = Tab:CreateSection("lll")
 
 local Button = Tab:CreateButton({
-   Name = "empty",
-   Callback = function()
-  
-   end,
+   Name = "No Clips",
+   Callback = function(value)
+        if value then
+            -- Saat toggle AKTIF
+            loadstring(game:HttpGet("https://raw.githubusercontent.com/danzynodex/Steal-A-Brainrot-By-Danzzy/refs/heads/main/NoClip.lua"))()
+        else
+            -- Saat toggle NONAKTIF
+            -- Tambahkan perintah untuk stop script jika ada
+            print("Toggle dimatikan, stop script jika perlu di sini.")
+        end
+    end
 })
 
 
 
 local Button = Tab:CreateButton({
-   Name = "empty",
+   Name = "Coming Soon",
    Callback = function()
  
    end,
@@ -63,7 +70,7 @@ local MainTab = Window:CreateTab("Main")
 
 
 MainTab:CreateToggle({
-    Name = "Steal a Brainrot",
+    Name = "Steal a Brainrot (OP!)",
     CurrentValue = false,
     Flag = "Toggle1",
     Callback = function(value)
