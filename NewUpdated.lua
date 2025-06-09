@@ -1,253 +1,100 @@
-debugX = true
+local ScreenGui = Instance.new("ScreenGui")    
+local Frame = Instance.new("Frame")    
+local Button = Instance.new("TextButton")    
+local Label = Instance.new("TextLabel")    
+local UICorner_Frame = Instance.new("UICorner")    
+local UICorner_Button = Instance.new("UICorner")    
+local UICorner_Label = Instance.new("UICorner")    
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+local isReady = true -- Status toggle
 
-local Window = Rayfield:CreateWindow({
-   Name = "Steal A Brainrot / New 2.1",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-   LoadingTitle = "Rayfield Interactive",
-   LoadingSubtitle = "By D4nzy_nzy",
-   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+ScreenGui.Name = "DeliveryTouchGUI"    
+ScreenGui.Parent = game.CoreGui    
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Sibling    
 
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+-- Frame utama    
+Frame.Parent = ScreenGui    
+Frame.BackgroundColor3 = Color3.fromRGB(25, 25, 25)    
+Frame.Position = UDim2.new(0, 20, 0, 100)    
+Frame.Size = UDim2.new(0, 140, 0, 90)    
+Frame.Active = true    
+Frame.Draggable = true    
+UICorner_Frame.CornerRadius = UDim.new(0, 10)    
+UICorner_Frame.Parent = Frame    
 
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "Big On 2025"
-   },
+-- Tombol    
+Button.Parent = Frame    
+Button.BackgroundColor3 = Color3.fromRGB(0, 170, 255)    
+Button.Position = UDim2.new(0, 10, 0, 45)    
+Button.Size = UDim2.new(0, 120, 0, 30)    
+Button.Font = Enum.Font.GothamBold    
+Button.Text = "Click To Steal"    
+Button.TextColor3 = Color3.fromRGB(255, 255, 255)    
+Button.TextSize = 12    
+Button.TextWrapped = true    
+UICorner_Button.CornerRadius = UDim.new(0, 8)    
+UICorner_Button.Parent = Button    
 
-   Discord = {
-      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
-      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
-   },
+-- Label tunggal (ready / error / working)
+Label.Parent = Frame    
+Label.BackgroundColor3 = Color3.fromRGB(40, 40, 40)    
+Label.Position = UDim2.new(0, 10, 0, 10)    
+Label.Size = UDim2.new(0, 120, 0, 25)    
+Label.Font = Enum.Font.GothamBold    
+Label.Text = "Hold A Brainrot First"    
+Label.TextColor3 = Color3.fromRGB(255, 255, 255)    
+Label.TextSize = 14    
+Label.Visible = true    
+UICorner_Label.CornerRadius = UDim.new(0, 6)    
+UICorner_Label.Parent = Label    
 
-   KeySystem = false, -- Set this to true to use our key system
-   KeySettings = {
-      Title = "Untitled",
-      Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
-      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
-      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-      Key = {"SupportD4nzy"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
-   }
-})
+-- Fungsi utama
+local function fireTouch()
+	local player = game.Players.LocalPlayer
+	local char = player.Character or player.CharacterAdded:Wait()
+	local toucher = char:FindFirstChild("HumanoidRootPart")
+	if not toucher then
+		Label.Text = "Tidak ada HRP"
+		return
+	end
 
-local Tab = Window:CreateTab("None", 4483362458) -- Title, Image
+	-- Countdown working
+	for i = 1, 19 do
+		local timeLeft = math.floor((1.9 - (i - 1) * 0.1) * 10) / 10
+		Label.Text = "working " .. tostring(timeLeft) .. "s"
+		wait(0.1)
+	end
 
-local Section = Tab:CreateSection("lll")
+	local touched = 0
+	for i = 1, 2 do
+		for _, obj in ipairs(workspace:GetDescendants()) do
+			if obj:IsA("BasePart") and obj.Name == "DeliveryHitbox" then
+				firetouchinterest(toucher, obj, 0)
+				wait(0.13)
+				firetouchinterest(toucher, obj, 1)
+				touched += 1
+			end
+		end
+	end
 
-local Button = Tab:CreateButton({
-   Name = "No Clips",
-   Callback = function(value)
-        if value then
-            -- Saat toggle AKTIF
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/danzynodex/Steal-A-Brainrot-By-Danzzy/refs/heads/main/NoClip.lua"))()
-        else
-            -- Saat toggle NONAKTIF
-            -- Tambahkan perintah untuk stop script jika ada
-            print("Toggle dimatikan, stop script jika perlu di sini.")
-        end
-    end
-})
+	-- Tampilkan status akhir sesuai toggle
+	if isReady then
+		Label.Text = "ready"
+	else
+		Label.Text = "ready"
+	end
+end
 
+-- Saat tombol diklik
+Button.MouseButton1Click:Connect(function()
+	-- Toggle status
+	if isReady then
+		Label.Text = "ready"
+	else
+		Label.Text = "ready"
+	end
+	isReady = not isReady
 
-
-local Button = Tab:CreateButton({
-   Name = "Coming Soon",
-   Callback = function()
- 
-   end,
-})
-
-
-local MainTab = Window:CreateTab("Main")
-
-
-
-
-MainTab:CreateToggle({
-    Name = "Steal a Brainrot (OP!)",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(value)
-        if value then
-            -- Saat toggle AKTIF
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/danzynodex/Steal-A-Brainrot-By-Danzzy/refs/heads/main/BrainRotAutoStole.lua"))()
-        else
-            -- Saat toggle NONAKTIF
-            -- Tambahkan perintah untuk stop script jika ada
-            print("Toggle dimatikan, stop script jika perlu di sini.")
-        end
-    end
-})
-
-
-
-MainTab:CreateToggle({
-    Name = "Lock Base",
-    CurrentValue = false,
-    Flag = "Toggle_LockBase",
-    Callback = function(value)
-        getgenv().autoTouchLockBaseEnabled = value
-
-        if value then
-            -- Saat toggle AKTIF
-            local player = game.Players.LocalPlayer
-
-            local function getHRP()
-                local char = player.Character or player.CharacterAdded:Wait()
-                return char:WaitForChild("HumanoidRootPart")
-            end
-
-            local function triggerAllTouchInterests()
-                local hrp = getHRP()
-                for _, obj in ipairs(workspace:GetDescendants()) do
-                    if obj:IsA("Folder") and obj.Name == "Purchases" then
-                        for _, part in ipairs(obj:GetDescendants()) do
-                            if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
-                                firetouchinterest(hrp, part, 0)
-                                firetouchinterest(hrp, part, 1)
-                                wait(0.1)
-                            end
-                        end
-                    end
-                end
-            end
-
-            task.spawn(function()
-                while getgenv().autoTouchLockBaseEnabled do
-                    pcall(triggerAllTouchInterests)
-                    wait(0.5)
-                end
-            end)
-        else
-            -- Saat toggle NONAKTIF
-            print("Lock Base dimatikan.")
-        end
-    end
-})
-
-
-
-MainTab:CreateToggle({
-    Name = "Auto Collect",
-    CurrentValue = false,
-    Flag = "Toggle_AutoCollect",
-    Callback = function(value)
-        getgenv().autoTouchAutoCollectEnabled = value
-
-        if value then
-            local player = game.Players.LocalPlayer
-
-            local function getHRP()
-                local char = player.Character or player.CharacterAdded:Wait()
-                return char:WaitForChild("HumanoidRootPart")
-            end
-
-            local function triggerAllTouchInterests()
-                local hrp = getHRP()
-                for _, obj in ipairs(workspace:GetDescendants()) do
-                    if obj:IsA("Folder") and obj.Name == "AnimalPodiums" then
-                        for _, part in ipairs(obj:GetDescendants()) do
-                            if part:IsA("BasePart") and part:FindFirstChildWhichIsA("TouchTransmitter") then
-                                firetouchinterest(hrp, part, 0)
-                                firetouchinterest(hrp, part, 1)
-                                wait(0.1)
-                            end
-                        end
-                    end
-                end
-            end
-
-            task.spawn(function()
-                while getgenv().autoTouchAutoCollectEnabled do
-                    pcall(triggerAllTouchInterests)
-                    wait(3)
-                end
-            end)
-        else
-            print("Auto Collect dimatikan.")
-        end
-    end
-})
-
-
-
-MainTab:CreateToggle({
-    Name = "Instant Take",
-    CurrentValue = false,
-    Flag = "Toggle_InstantTake",
-    Callback = function(value)
-        local function setPromptInstant(enabled)
-            for _, v in pairs(game:GetDescendants()) do
-                if v:IsA("ProximityPrompt") then
-                    v.HoldDuration = enabled and 0 or 1
-                end
-            end
-        end
-
-        if value then
-            -- Saat toggle AKTIF
-            setPromptInstant(true)
-
-            _G.instantPromptConnection = game.DescendantAdded:Connect(function(v)
-                if v:IsA("ProximityPrompt") then
-                    v.HoldDuration = 0
-                end
-            end)
-        else
-            -- Saat toggle NONAKTIF
-            setPromptInstant(false)
-
-            if _G.instantPromptConnection then
-                _G.instantPromptConnection:Disconnect()
-                _G.instantPromptConnection = nil
-            end
-        end
-    end
-})
-
-
-
-
-MainTab:CreateToggle({
-    Name = "Infinite Jump",
-    CurrentValue = false,
-    Flag = "Toggle_InfJump",
-    Callback = function(value)
-        _G.infiniteJump = value
-        local Player = game:GetService("Players").LocalPlayer
-        local UIS = game:GetService("UserInputService")
-
-        if value then
-            -- ON: Aktifkan Infinite Jump
-            if _G.InfJumpConnection then
-                _G.InfJumpConnection:Disconnect()
-            end
-
-            _G.InfJumpConnection = UIS.JumpRequest:Connect(function()
-                if _G.infiniteJump then
-                    local Humanoid = Player.Character and Player.Character:FindFirstChildOfClass("Humanoid")
-                    if Humanoid then
-                        Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-                    end
-                end
-            end)
-        else
-            -- OFF: Nonaktifkan Infinite Jump
-            if _G.InfJumpConnection then
-                _G.InfJumpConnection:Disconnect()
-                _G.InfJumpConnection = nil
-            end
-        end
-    end
-})
-
-
-
-Rayfield:LoadConfiguration()
-
+	-- Jalankan proses
+	fireTouch()
+end)
