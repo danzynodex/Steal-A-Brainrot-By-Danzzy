@@ -1,182 +1,210 @@
-debugX = true
+local player = game.Players.LocalPlayer
 
-local Rayfield = loadstring(game:HttpGet('https://sirius.menu/rayfield'))()
+-- ScreenGui
+local screenGui = Instance.new("ScreenGui")
+screenGui.Name = "ToggleMenuGUI"
+screenGui.ResetOnSpawn = false
+screenGui.Parent = player:WaitForChild("PlayerGui")
 
-local Window = Rayfield:CreateWindow({
-   Name = "Bananini Condomini",
-   Icon = 0, -- Icon in Topbar. Can use Lucide Icons (string) or Roblox Image (number). 0 to use no icon (default).
-   LoadingTitle = "Rayfield Interface Suite",
-   LoadingSubtitle = "By D4nzy",
-   Theme = "Default", -- Check https://docs.sirius.menu/rayfield/configuration/themes
+-- GUI Frame (menu utama)
+local frame = Instance.new("Frame")
+frame.Size = UDim2.new(0, 180, 0, 170)
+frame.AnchorPoint = Vector2.new(0.5, 0.5)
+frame.Position = UDim2.new(0.5, 0, 0.5, 0) -- posisi tengah layar
+frame.BackgroundColor3 = Color3.fromRGB(40, 40, 40)
+frame.Visible = false
+frame.Active = true
+frame.Draggable = true
+frame.Parent = screenGui
 
-   DisableRayfieldPrompts = false,
-   DisableBuildWarnings = false, -- Prevents Rayfield from warning when the script has a version mismatch with the interface
+-- Tambahkan UICorner
+Instance.new("UICorner", frame).CornerRadius = UDim.new(0, 12)
 
-   ConfigurationSaving = {
-      Enabled = true,
-      FolderName = nil, -- Create a custom folder for your hub/game
-      FileName = "Big Script Maybe"
-   },
+-- Tambahkan UIStroke
+local stroke = Instance.new("UIStroke")
+stroke.Color = Color3.fromRGB(   47, 229, 255) -- warna garis putih
+stroke.Thickness = 1.7 -- ketebalan garis
+stroke.Parent = frame
+-- Layout dan padding
+local layout = Instance.new("UIListLayout", frame)
+layout.Padding = UDim.new(0, 8)
+layout.VerticalAlignment = Enum.VerticalAlignment.Top
+layout.HorizontalAlignment = Enum.HorizontalAlignment.Center
 
-   Discord = {
-      Enabled = false, -- Prompt the user to join your Discord server if their executor supports it
-      Invite = "noinvitelink", -- The Discord invite code, do not include discord.gg/. E.g. discord.gg/ ABCD would be ABCD
-      RememberJoins = true -- Set this to false to make them join the discord every time they load it up
-   },
+local padding = Instance.new("UIPadding", frame)
+padding.PaddingTop = UDim.new(0, 12)
 
-   KeySystem = false, -- Set this to true to use our key system
-   KeySettings = {
-      Title = "Untitled",
-      Subtitle = "Key System",
-      Note = "No method of obtaining the key is provided", -- Use this to tell the user how to get a key
-      FileName = "Key", -- It is recommended to use something unique as other scripts using Rayfield may overwrite your key file
-      SaveKey = true, -- The user's key will be saved, but if you change the key, they will be unable to use your script
-      GrabKeyFromSite = false, -- If this is true, set Key below to the RAW site you would like Rayfield to get the key from
-      Key = {"HelloGuys"} -- List of keys that will be accepted by the system, can be RAW file links (pastebin, github etc) or simple strings ("hello","key22")
-   }
-})
+-- Fungsi Tambah Toggle
+local function AddToggle(data)
+	local toggleState = data.Default or false
 
-local Tab = Window:CreateTab("None", 4483362458) -- Title, Image
+	local button = Instance.new("TextButton")
+	button.Size = UDim2.new(0.9, 0, 0, 32)
+	button.BackgroundColor3 = Color3.fromRGB(65, 65, 65)
+	button.Font = Enum.Font.GothamBold
+	button.TextSize = 18
+	button.TextColor3 = Color3.fromRGB(255, 255, 255)
+	button.Text = data.Name
+	button.TextXAlignment = Enum.TextXAlignment.Left
+	button.BorderSizePixel = 0
+	button.Parent = frame
+	Instance.new("UICorner", button).CornerRadius = UDim.new(0, 8)
 
-local Section = Tab:CreateSection("lll")
+	local icon = Instance.new("Frame")
+	icon.Size = UDim2.new(0, 18, 0, 18)
+	icon.Position = UDim2.new(1, -26, 0.5, -9)
+	icon.BackgroundColor3 = toggleState and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(150, 150, 150)
+	icon.BorderSizePixel = 0
+	icon.Parent = button
+	Instance.new("UICorner", icon).CornerRadius = UDim.new(1, 0)
 
-local Button = Tab:CreateButton({
-   Name = "I'm still working on fixing the lock base",
-   Callback = function()
-  
-   end,
-})
+	button.MouseButton1Click:Connect(function()
+		toggleState = not toggleState
+		icon.BackgroundColor3 = toggleState and Color3.fromRGB(0, 255, 0) or Color3.fromRGB(150, 150, 150)
+		if data.Callback then
+			data.Callback(toggleState)
+		end
+	end)
+end
 
-
-
-local Button = Tab:CreateButton({
-   Name = "empty",
-   Callback = function()
- 
-   end,
-})
-
-
-local MainTab = Window:CreateTab("Main")
-
-
-getgenv().BrainRotActive = false
-
-MainTab:CreateToggle({
-    Name = "Steal a Brainrot (OP)",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(value)
-        getgenv().BrainRotActive = value
-        if value then
-            -- Saat toggle AKTIF
-            loadstring(game:HttpGet("https://raw.githubusercontent.com/Akbar123s/Script-Roblox-/refs/heads/main/BrainRot%20Sell%20Gamers"))()
-        else
-            -- Saat toggle NONAKTIF
-            print("Toggle dimatikan. Script harus cek getgenv().BrainRotActive.")
-        end
-    end
-})
+-- Tambahkan beberapa toggle
 
 
 
+local InstanToggleAktif = false
 
-
-
-local ProximityService = game:GetService("ProximityPromptService")
-
-local instantPromptEnabled = false
-
-MainTab:CreateToggle({
-    Name = "Instant ProximityPrompt",
-    CurrentValue = false,
-    Flag = "Toggle2",
-    Callback = function(value)
-        instantPromptEnabled = value
-        print("Instant ProximityPrompt is now:", value)
-
-        -- Atur semua ProximityPrompt yang ada saat ini
-        for _, prompt in ipairs(workspace:GetDescendants()) do
-            if prompt:IsA("ProximityPrompt") then
-                prompt.HoldDuration = value and 0 or 1 -- 0 = instan, 1 = default tahan
-            end
-        end
-    end
-})
-
--- Atur juga jika ada ProximityPrompt baru ditambahkan ke game
-workspace.DescendantAdded:Connect(function(descendant)
-    if descendant:IsA("ProximityPrompt") and instantPromptEnabled then
-        descendant.HoldDuration = 0
-    end
-end)
-
-
-
-
-local RunService = game:GetService("RunService")
-
-local enabled = false -- toggle awal
-
-local function triggerPrompt(prompt)
-	if prompt:IsA("ProximityPrompt") and prompt.Enabled and prompt.Parent then
-		prompt.HoldDuration = 0
-		prompt.RequiresLineOfSight = false
-		prompt:InputHoldBegin(Enum.UserInputType.Keyboard)
-		prompt:InputHoldEnd(Enum.UserInputType.Keyboard)
+local function SetAllPromptsInstant(active)
+	for _, prompt in ipairs(game:GetDescendants()) do
+		if prompt:IsA("ProximityPrompt") then
+			prompt.HoldDuration = active and 0 or 1
+		end
 	end
 end
 
--- Auto trigger jika ada prompt baru muncul
-workspace.DescendantAdded:Connect(function(descendant)
-	if enabled and descendant:IsA("ProximityPrompt") then
-		task.wait(0.1)
-		triggerPrompt(descendant)
+-- Atur ulang prompt baru yang ditambahkan ke game
+game.DescendantAdded:Connect(function(desc)
+	if desc:IsA("ProximityPrompt") and InstanToggleAktif then
+		desc.HoldDuration = 0
 	end
 end)
 
--- Loop untuk trigger prompt jika aktif
-RunService.RenderStepped:Connect(function()
-	if enabled then
-		for _, prompt in pairs(workspace:GetDescendants()) do
-			if prompt:IsA("ProximityPrompt") then
-				triggerPrompt(prompt)
-			end
+
+AddToggle({
+	Name = "Bypass Steal (OP)",
+	Default = false,
+	Callback = function(v)
+		if v then
+			loadstring(game:HttpGet("https://raw.githubusercontent.com/danzynodex/Steal-A-Brainrot-By-Danzzy/refs/heads/main/NewUpdated.lua"))()
 		end
 	end
-end)
+})
 
--- Toggle GUI
-MainTab:CreateToggle({
-	Name = "Auto ProximityPrompt",
-	CurrentValue = false,
-	Flag = "Toggle1",
-	Callback = function(value)
-		enabled = value
-		print("Toggle is now:", value)
+
+
+
+AddToggle({
+	Name = "Instant Take",
+	Default = false,
+	Callback = function(v)
+		InstanToggleAktif = v
+		SetAllPromptsInstant(v)
 	end
 })
 
 
 
-local UIS = game:GetService("UserInputService")
-local Players = game:GetService("Players")
-local player = Players.LocalPlayer
 local infJumpEnabled = false
 
-MainTab:CreateToggle({
-    Name = "Infinite Jump",
-    CurrentValue = false,
-    Flag = "Toggle1",
-    Callback = function(value)
-        infJumpEnabled = value
-        print("Infinite Jump is now:", value)
-    end
+-- Infinite Jump Function
+local UserInputService = game:GetService("UserInputService")
+local Players = game:GetService("Players")
+local player = Players.LocalPlayer
+local humanoid = nil
+
+-- Saat tombol spasi ditekan
+UserInputService.JumpRequest:Connect(function()
+	if infJumpEnabled and humanoid then
+		humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+	end
+end)
+
+-- Toggle UI
+local Players = game:GetService("Players")
+local UserInputService = game:GetService("UserInputService")
+
+local player = Players.LocalPlayer
+local humanoid
+local infJumpEnabled = false
+
+-- Fungsi untuk set humanoid saat karakter muncul
+local function onCharacterAdded(character)
+	if infJumpEnabled then
+		humanoid = character:WaitForChild("Humanoid")
+	end
+end
+
+-- Sambungkan ke saat karakter respawn
+player.CharacterAdded:Connect(onCharacterAdded)
+
+-- Saat tombol jump ditekan
+UserInputService.JumpRequest:Connect(function()
+	if infJumpEnabled and humanoid then
+		-- Force jump
+		humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
+	end
+end)
+
+-- Toggle dari UI
+AddToggle({
+	Name = "inf jump",
+	Default = false,
+	Callback = function(v)
+		infJumpEnabled = v
+
+		-- Update humanoid jika toggle diaktifkan
+		if v then
+			local character = player.Character or player.CharacterAdded:Wait()
+			humanoid = character:WaitForChild("Humanoid")
+		else
+			humanoid = nil
+		end
+	end
 })
 
--- Fungsi Infinite Jump
-UIS.JumpRequest:Connect(function()
-    if infJumpEnabled and player.Character and player.Character:FindFirstChild("Humanoid") then
-        player.Character.Humanoid:ChangeState(Enum.HumanoidStateType.Jumping)
-    end
+
+
+
+-- Tombol Open/Close pakai gambar baru
+local toggleButton = Instance.new("ImageButton")  
+toggleButton.Name = "OpenCloseButton"  
+toggleButton.Size = UDim2.new(0, 50, 0, 50)  
+toggleButton.Position = UDim2.new(0, 50, 0.2, 0)  
+toggleButton.Image = "rbxassetid://98474276570349" -- gambar barumu  
+toggleButton.BackgroundTransparency = 1  
+toggleButton.Parent = screenGui  
+toggleButton.Active = true  
+toggleButton.Draggable = true
+
+-- Tambahkan UICorner
+local uiCorner = Instance.new("UICorner")
+uiCorner.CornerRadius = UDim.new(0, 12) -- ubah angka ini jika ingin sudut lebih tajam atau lebih bulat
+uiCorner.Parent = toggleButton
+
+-- Fungsi buka/tutup GUI  
+local isOpen = false  
+toggleButton.MouseButton1Click:Connect(function()  
+	isOpen = not isOpen  
+	frame.Visible = isOpen  
 end)
+
+
+
+
+
+
+game.StarterGui:SetCore("SendNotification", {
+    Title = "succeed executed ";
+    Text = "Created By D4nzy";
+    Icon = "rbxthumb://type=AvatarHeadShot&id=8610162287&w=150&h=150";
+    Duration = 5;
+})
